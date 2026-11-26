@@ -1,0 +1,25 @@
+import "dotenv/config";
+import { generateText, type ModelMessage } from "ai";
+import { openai } from "@ai-sdk/openai";
+
+import { SYSTEM_PROMPT } from "./system/prompt";
+import type { AgentCallbacks } from "../types";
+
+const MODEL_NAME = "gpt-5-mini";
+
+export async function runAgent(
+  userMessage: string,
+  conversationHistory?: ModelMessage[],
+  callbacks?: AgentCallbacks
+) {
+  const { text } = await generateText({
+    model: openai(MODEL_NAME),
+    prompt: userMessage,
+    system: SYSTEM_PROMPT
+  });
+
+  console.log(text);
+};
+
+runAgent("Hello, do you receive my message?");
+//runAgent("What is your training cut-off date?");
